@@ -75,16 +75,16 @@ app.get("/rooms", async (req, res) => {
 
 app.post("/hook", async (req, res) => {
     const { StatusCallbackEvent, RoomName, RoomSid } = req.body;
-    if (
-        StatusCallbackEvent === "room-created" ||
-        StatusCallbackEvent === "room-ended"
-    ) {
-        console.log({
-            StatusCallbackEvent,
-            RoomName,
-            RoomSid,
-        });
-    }
+    // if (
+    //     StatusCallbackEvent === "room-created" ||
+    //     StatusCallbackEvent === "room-ended"
+    // ) {
+    console.log({
+        StatusCallbackEvent,
+        RoomName,
+        RoomSid,
+    });
+    // }
 
     res.json({
         StatusCallbackEvent,
