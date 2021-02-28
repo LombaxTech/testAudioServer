@@ -41,8 +41,8 @@ app.post("/video/token", async (req, res) => {
     try {
         let room = await client.video.rooms(roomName).fetch();
         if (room) {
-            console.log("REACHED PROD!!!");
             const token = videoToken(identity, roomName, config);
+            console.log(`TOKEN IS ${token}`);
             sendTokenResponse(token, res);
         }
     } catch (error) {
