@@ -5,11 +5,13 @@ const { videoToken } = require("./tokens");
 const cors = require("cors");
 
 const client = require("twilio")(
-    "ACd9e734162b8eaf2caab779a5707e342d",
+    process.env.TWILIO_ACCOUNT_SID,
     // "SK92e0d9f208ae6944e898281196dcaf71"
-    "1a2d7c43480f1e054ba60d76fbb36b6b"
+    process.env.TWILIO_AUTH_TOKEN
     // "QmCygr3L7YYzX0NmvQ3vwx6yeAoLt6Ud"
 );
+
+console.log(process.env.TWILIO_ACCOUNT_SID);
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
