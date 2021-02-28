@@ -23,6 +23,8 @@ const sendTokenResponse = (token, res) => {
     res.send(JSON.stringify({ token: token.toJwt() }));
 };
 
+app.get("/", (req, res) => res.send("Hello!"));
+
 app.get("/video/token", (req, res) => {
     const { identity, room } = req.query;
     const token = videoToken(identity, room, config);
