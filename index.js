@@ -1,4 +1,10 @@
 const express = require("express");
+const http = require("http");
+const app = express();
+const server = http.createServer(app);
+const socket = require("socket.io");
+const io = socket(server);
+
 const bodyParser = require("body-parser");
 const config = require("./config");
 const { videoToken } = require("./tokens");
@@ -13,7 +19,6 @@ const client = require("twilio")(
 
 console.log(process.env.TWILIO_ACCOUNT_SID);
 
-const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -96,4 +101,4 @@ app.post("/hook", async (req, res) => {
 // app.get("/config", (req, res) => res.json(config));
 
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Started listening on port ${PORT}`));
+server.listen(PORT, () => console.log(`Started listening on port ${PORT}`));
