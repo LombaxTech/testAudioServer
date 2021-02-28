@@ -75,7 +75,13 @@ app.get("/rooms", async (req, res) => {
 
 app.post("/hook", async (req, res) => {
     console.log(req.body);
-    res.json(req.body);
+    const { StatusCallbackEvent, RoomName, RoomSid } = req.body;
+
+    res.json({
+        StatusCallbackEvent,
+        RoomName,
+        RoomSid,
+    });
 });
 
 // app.get("/config", (req, res) => res.json(config));
