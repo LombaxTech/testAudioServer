@@ -40,13 +40,15 @@ app.post("/video/token", async (req, res) => {
     const { identity, roomName } = req.body;
     try {
         let room = await client.video.rooms(roomName).fetch();
+        console.log("MADE A ROOM!");
         if (room) {
             const token = videoToken(identity, roomName, config);
-            console.log(`TOKEN IS ${token}`);
+            // console.log("MADE IT HERE");
             sendTokenResponse(token, res);
         }
     } catch (error) {
         //! Error 20404 - RESOURCE NOT FOUND
+        // res.json(error);
         res.json(error.code);
     }
 });
