@@ -115,16 +115,28 @@ app.get("/user/:id", (req, res) => {
 
 io.on("connection", (socket) => {
     socket.emit("setId", socket.id);
+
+    if (!users[socket.id]) {
+        users[socket.id] = {};
+    }
+
     socket.on("checkId", () => socket.emit(socket.id));
     socket.on("setName", (name) => {
-        console.log(`My name is ${name}`);
         users[socket.id] = { name };
         console.log(users);
     });
-    socket.on("setImage", (imageUrl) => {
-        users[socket.id].imageUrl = imageUrl;
+
+    socket.on("setImage", (url) => {
+        users[socket.id].imageUrl = url;
+        console.log(users);
         io.emit(users);
     });
+
+    socket.on("disconnect", () => {
+        delete users[socket.id];
+        console.log(users);
+    });
+
     socket.on("canSend", () => console.log("CAN SEND!!"));
     socket.on("getUser", (id) => socket.emit("user", users[id]));
 });
