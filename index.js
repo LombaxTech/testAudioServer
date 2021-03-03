@@ -103,5 +103,31 @@ app.post("/hook", async (req, res) => {
 
 // app.get("/config", (req, res) => res.json(config));
 
+const users = {};
+
+app.get("/user/:id", (req, res) => {
+    const { id } = req.params;
+    if (users[id]) {
+        return res.json(users[id]);
+    }
+    return res.json({ error: "no user found" });
+});
+
+io.on("connection", (socket) => {
+    socket.emit("setId", socket.id);
+    socket.on("checkId", () => socket.emit(socket.id));
+    socket.on("setName", (name) => {
+        console.log(`My name is ${name}`);
+        users[socket.id] = { name };
+        console.log(users);
+    });
+    socket.on("setImage", (imageUrl) => {
+        users[socket.id].imageUrl = imageUrl;
+        io.emit(users);
+    });
+    socket.on("canSend", () => console.log("CAN SEND!!"));
+    socket.on("getUser", (id) => socket.emit("user", users[id]));
+});
+
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => console.log(`Started listening on port ${PORT}`));
